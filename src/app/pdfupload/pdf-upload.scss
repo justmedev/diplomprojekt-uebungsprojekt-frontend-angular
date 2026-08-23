@@ -1,0 +1,90 @@
+.upload-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(85vh - 80px);
+  padding: 2rem 1rem;
+}
+
+:host ::ng-deep .p-card {
+  width: 100%;
+  max-width: 850px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+}
+
+.dropzone {
+  border: 2px dashed var(--p-content-border-color, #cbd5e1);
+  border-radius: 12px;
+  padding: 5rem 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  &:hover, &.drag-over {
+    background-color: var(--p-content-hover-background, #f8fafc);
+    border-color: var(--p-primary-color, #3b82f6);
+    transform: scale(1.01);
+  }
+
+  * {
+    pointer-events: none;
+  }
+}
+
+.upload-icon {
+  font-size: 4.5rem;
+  color: var(--p-primary-color, #3b82f6);
+}
+
+.upload-title {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.hint {
+  font-size: 0.9rem;
+  color: var(--p-text-muted-color, #64748b);
+  background: var(--p-content-hover-background, #f1f5f9);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+}
+
+.file-preview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 0.5rem;
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.pdf-icon {
+  font-size: 3rem;
+  color: #ef4444;
+}
+
+.file-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+}
+
+.file-size {
+  font-size: 0.9rem;
+  color: var(--p-text-muted-color, #64748b);
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+}

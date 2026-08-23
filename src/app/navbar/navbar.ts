@@ -3,6 +3,7 @@ import {MenuItem, MessageService} from '@openng/optimus-ui/api';
 import {CommonModule} from '@angular/common';
 import {MenubarModule} from '@openng/optimus-ui/menubar';
 import {ToastModule} from '@openng/optimus-ui/toast';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
@@ -18,11 +19,10 @@ import {ToastModule} from '@openng/optimus-ui/toast';
     </div>
   `,
   standalone: true,
-  imports: [CommonModule, MenubarModule, ToastModule],
+  imports: [CommonModule, MenubarModule, ToastModule, RouterModule],
   providers: [MessageService]
 })
 export class Navbar implements OnInit {
-  private messageService = inject(MessageService);
   items: MenuItem[] | undefined;
 
   ngOnInit() {
@@ -30,14 +30,12 @@ export class Navbar implements OnInit {
       {
         label: 'Home',
         icon: 'pi pi-home',
-        routerLink: '/'
+        routerLink: ['/']
       },
       {
         label: 'Upload',
         icon: 'pi pi-cloud-upload',
-        command: () => {
-          this.messageService.add({severity: 'success', summary: 'Success', detail: 'File created', life: 3000});
-        }
+        routerLink: ['/upload']
       },
       {
         separator: true
