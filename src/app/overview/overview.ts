@@ -9,7 +9,7 @@ import { ConfirmDialog } from '@openng/optimus-ui/confirmdialog';
 import { Toast } from '@openng/optimus-ui/toast';
 import { finalize } from 'rxjs';
 import { ProgressSpinner } from '@openng/optimus-ui/progressspinner';
-import { PdfItem } from '../types';
+import { PdfInfo } from '../types';
 
 @Component({
   selector: 'overview',
@@ -22,13 +22,13 @@ export class OverviewComponent {
   private http = inject(HttpClient);
   private confirmationService = inject(ConfirmationService);
   private messageService = inject(MessageService);
-  items = signal<PdfItem[]>([]);
+  items = signal<PdfInfo[]>([]);
 
   isLoading = signal(true);
 
   constructor() {
     this.http
-      .get<PdfItem[]>('/api/pdfinfos')
+      .get<PdfInfo[]>('/api/pdfinfos')
       .pipe(
         takeUntilDestroyed(),
         finalize(() => this.isLoading.set(false)),
@@ -46,7 +46,7 @@ export class OverviewComponent {
       });
   }
 
-  confirmDelete(item: PdfItem, event: Event) {
+  confirmDelete(item: PdfInfo, event: Event) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Do you want to delete ' + item.name + '?',
@@ -62,7 +62,7 @@ export class OverviewComponent {
         label: 'Delete',
       },
       accept: () => {
-        this.http.delete('/api/delete-pdf/' + item.id).subscribe({
+        this.http.delete('/api/pdfs' + item.id).subscribe({
           next: () => {
             this.items.update((currentItems) => currentItems.filter((i) => i.id !== item.id));
           },

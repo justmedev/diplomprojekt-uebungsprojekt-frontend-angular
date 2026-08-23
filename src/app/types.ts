@@ -1,4 +1,4 @@
-export interface PdfItem {
+export interface PdfInfo {
   id: number;
   name: string;
   // thumbnailUrl: string;
