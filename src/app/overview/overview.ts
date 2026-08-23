@@ -28,7 +28,7 @@ export class OverviewComponent {
 
   constructor() {
     this.http
-      .get<PdfItem[]>('/api/pdfs')
+      .get<PdfItem[]>('/api/pdfinfos')
       .pipe(
         takeUntilDestroyed(),
         finalize(() => this.isLoading.set(false)),
