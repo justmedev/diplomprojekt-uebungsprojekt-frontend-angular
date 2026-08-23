@@ -7,91 +7,43 @@ import { Tooltip } from '@openng/optimus-ui/tooltip';
 import { ConfirmationService, MessageService } from '@openng/optimus-ui/api';
 import { ConfirmDialog } from '@openng/optimus-ui/confirmdialog';
 import { Toast } from '@openng/optimus-ui/toast';
-
-export interface PdfItem {
-  id: number;
-  name: string;
-  // thumbnailUrl: string;
-}
+import { finalize } from 'rxjs';
+import { ProgressSpinner } from '@openng/optimus-ui/progressspinner';
+import { PdfItem } from '../types';
 
 @Component({
   selector: 'overview',
   standalone: true,
-  template: `
-    <p-confirm-dialog></p-confirm-dialog>
-    <p-toast></p-toast>
-
-    <div class="container">
-      <div class="grid">
-        @for (item of items(); track item.id) {
-          <p-card class="card">
-            <!-- <ng-template #header>
-             <img [alt]="item.title" class="w-full" [src]="item.thumbnailUrl"/>
-            </ng-template> -->
-            <ng-template #title>
-              <div [pTooltip]="item.name" tooltipPosition="top" appendTo="body" [showDelay]="300">
-                {{ item.name }}
-              </div>
-            </ng-template>
-            <ng-template #footer>
-              <div class="footer">
-                <p-button label="edit" icon="pi pi-file-edit" />
-                <p-button
-                  icon="pi pi-trash"
-                  severity="danger"
-                  [text]="true"
-                  (onClick)="confirmDelete(item, $event)"
-                />
-              </div>
-            </ng-template>
-          </p-card>
-        }
-      </div>
-    </div>
-  `,
-  styles: [
-    `
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        gap: 1.5rem;
-        padding: 1.5rem;
-        width: 50%;
-      }
-      img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-      }
-      .container {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-      }
-      .card {
-        overflow: hidden;
-      }
-      .footer {
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-      }
-    `,
-  ],
-  imports: [Card, Button, Tooltip, ConfirmDialog, Toast],
+  templateUrl: './overview.html',
+  styleUrl: './overview.scss',
+  imports: [Card, Button, Tooltip, ConfirmDialog, Toast, ProgressSpinner],
 })
 export class OverviewComponent {
   private http = inject(HttpClient);
   private confirmationService = inject(ConfirmationService);
   private messageService = inject(MessageService);
+  items = signal<PdfItem[]>([]);
 
-  readonly items = signal<PdfItem[]>([]);
+  isLoading = signal(true);
 
   constructor() {
     this.http
       .get<PdfItem[]>('/api/pdfs')
-      .pipe(takeUntilDestroyed())
-      .subscribe((data) => this.items.set(data));
+      .pipe(
+        takeUntilDestroyed(),
+        finalize(() => this.isLoading.set(false)),
+      )
+      .subscribe({
+        next: (data) => this.items.set(data),
+        error: (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: err.message,
+            life: 3000,
+          });
+        },
+      });
   }
 
   confirmDelete(item: PdfItem, event: Event) {
