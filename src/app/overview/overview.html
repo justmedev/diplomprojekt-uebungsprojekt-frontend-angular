@@ -12,9 +12,9 @@
     <div class="grid">
       @for (item of items(); track item.id) {
         <p-card class="card">
-          <!-- <ng-template #header>
-           <img [alt]="item.title" class="w-full" [src]="item.thumbnailUrl"/>
-          </ng-template> -->
+          <ng-template #header>
+           <img [alt]="item.name" class="image" [src]="item.thumbnailBase64"/>
+          </ng-template>
           <ng-template #title>
             <div [pTooltip]="item.name" tooltipPosition="top" appendTo="body" [showDelay]="300">
               {{ item.name }}

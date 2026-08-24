@@ -43,3 +43,9 @@
 .card {
   overflow: hidden;
 }
+
+.image {
+  width: 100%;
+  aspect-ratio: 210 / 297;
+  object-fit: cover;
+  display: block;}

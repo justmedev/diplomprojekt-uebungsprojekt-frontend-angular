@@ -1,5 +1,5 @@
 export interface PdfInfo {
   id: number;
   name: string;
-  // thumbnailUrl: string;
+  thumbnailBase64: string;
 }
