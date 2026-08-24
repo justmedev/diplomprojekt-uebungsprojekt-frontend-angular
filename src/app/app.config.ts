@@ -6,12 +6,15 @@ import Aura from '@openng/optimus-ui-themes/aura';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { baseUrlInterceptor } from './interceptors/base-url.interceptor';
 import { API_BASE_URL } from './interceptors/base-url.token';
+import { ConfirmationService, MessageService } from '@openng/optimus-ui/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideOptimus({ theme: { preset: Aura } }),
+    ConfirmationService,
+    MessageService,
     provideHttpClient(
       withInterceptors([baseUrlInterceptor])
     ),
