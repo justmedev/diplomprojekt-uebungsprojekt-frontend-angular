@@ -17,6 +17,6 @@ export class PdfService {
     const formData = new FormData();
     formData.append('file', file, file.name);
 
-    return this.http.post<UploadResponse>('/api/pdfmanager', formData);
+    return this.http.post<UploadResponse>('/api/pdfs', formData);
   }
 }
