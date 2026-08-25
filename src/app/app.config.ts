@@ -3,13 +3,25 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideOptimus } from '@openng/optimus-ui/config';
 import Aura from '@openng/optimus-ui-themes/aura';
-import { MessageService } from '@openng/optimus-ui/api';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { baseUrlInterceptor } from './interceptors/base-url.interceptor';
+import { API_BASE_URL } from './interceptors/base-url.token';
+import { ConfirmationService, MessageService } from '@openng/optimus-ui/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideOptimus({ theme: { preset: Aura } }),
-    MessageService
+    MessageService,
+    ConfirmationService,
+    MessageService,
+    provideHttpClient(
+      withInterceptors([baseUrlInterceptor])
+    ),
+    {
+      provide:API_BASE_URL,
+      useValue: 'http://localhost:8080',
+    }
   ],
 };

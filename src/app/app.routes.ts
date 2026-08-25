@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { PdfUpload } from './pdfupload/pdf-upload';
+import { OverviewComponent } from './overview/overview';
 
 export const routes: Routes = [
   {
@@ -8,7 +9,6 @@ export const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'upload',
-    pathMatch: 'full',
+    component: OverviewComponent,
   },
 ];
