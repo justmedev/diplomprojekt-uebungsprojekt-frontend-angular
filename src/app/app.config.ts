@@ -13,6 +13,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideOptimus({ theme: { preset: Aura } }),
+    MessageService,
     ConfirmationService,
     MessageService,
     provideHttpClient(

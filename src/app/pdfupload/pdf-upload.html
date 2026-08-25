@@ -1,0 +1,74 @@
+<div class="upload-container">
+  <p-toast></p-toast>
+
+  <p-card header="Upload PDF Document">
+    @if (!selectedFile()) {
+      <div
+        class="dropzone"
+        [class.drag-over]="isDragging()"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+        (click)="fileInput.click()"
+      >
+        <input
+          #fileInput
+          type="file"
+          accept="application/pdf"
+          (click)="fileInput.value = ''"
+          (change)="onFileSelect($event)"
+          hidden
+        />
+        <i class="pi pi-cloud-upload upload-icon"></i>
+        <p class="upload-title">Drag & drop PDF here or click to browse</p>
+        <span class="hint">Note: Only PDF files are supported</span>
+      </div>
+    } @else {
+      <div class="file-preview">
+        <div class="file-info">
+          <i class="pi pi-file-pdf pdf-icon"></i>
+          <div>
+            <p class="file-name">{{ selectedFile()?.name }}</p>
+            <p class="file-size">
+              {{ ((selectedFile()?.size ?? 0) / (1024 * 1024)).toFixed(2) }} MB
+            </p>
+          </div>
+        </div>
+
+        <div class="field-container" style="margin: 1rem 0;">
+          <label for="docName" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">
+            Name of document
+          </label>
+          <input
+            id="docName"
+            type="text"
+            pInputText
+            style="width: 100%;"
+            [ngModel]="documentName()"
+            (ngModelChange)="documentName.set($event)"
+            [disabled]="isUploading()"
+            placeholder="name of document"
+          />
+        </div>
+
+        <div class="actions">
+          <p-button
+            label="Cancel"
+            icon="pi pi-times"
+            severity="secondary"
+            [text]="true"
+            [disabled]="isUploading()"
+            (onClick)="reset()"
+          />
+          <p-button
+            label="Upload"
+            icon="pi pi-upload"
+            [disabled]="!documentName().trim() || isUploading()"
+            [loading]="isUploading()"
+            (onClick)="upload()"
+          />
+        </div>
+      </div>
+    }
+  </p-card>
+</div>
