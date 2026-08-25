@@ -13,9 +13,10 @@ export interface UploadResponse {
 export class PdfService {
   private http = inject(HttpClient);
 
-  uploadPdf(file: File): Observable<UploadResponse> {
+  uploadPdf(file: File, name: string): Observable<UploadResponse> {
     const formData = new FormData();
     formData.append('file', file, file.name);
+    formData.append('name', name);
 
     return this.http.post<UploadResponse>('/api/pdfs', formData);
   }

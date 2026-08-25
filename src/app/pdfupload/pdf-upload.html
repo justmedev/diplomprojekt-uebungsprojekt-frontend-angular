@@ -15,7 +15,7 @@
           #fileInput
           type="file"
           accept="application/pdf"
-          (click)="$event.target.value = ''"
+          (click)="fileInput.value = ''"
           (change)="onFileSelect($event)"
           hidden
         />
@@ -35,6 +35,22 @@
           </div>
         </div>
 
+        <div class="field-container" style="margin: 1rem 0;">
+          <label for="docName" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">
+            Name of document
+          </label>
+          <input
+            id="docName"
+            type="text"
+            pInputText
+            style="width: 100%;"
+            [ngModel]="documentName()"
+            (ngModelChange)="documentName.set($event)"
+            [disabled]="isUploading()"
+            placeholder="name of document"
+          />
+        </div>
+
         <div class="actions">
           <p-button
             label="Cancel"
@@ -47,6 +63,7 @@
           <p-button
             label="Upload"
             icon="pi pi-upload"
+            [disabled]="!documentName().trim() || isUploading()"
             [loading]="isUploading()"
             (onClick)="upload()"
           />
